@@ -121,6 +121,22 @@ a {
   margin-top: 15px;
 }
 
+.wrapper__main-content__current-weather__city {
+  border: 2px solid red;
+  width: 100%;
+  padding: 10px;
+}
+.wrapper__main-content__current-weather__thermal-sensation {
+  border: 2px solid red;
+  width: 100%;
+  padding: 10px;
+}
+.wrapper__main-content__current-weather__other-infos {
+  border: 2px solid red;
+  width: 100%;
+  padding: 10px;
+}
+
 .wrapper__main-content__next-weathers {
   display: flex;
   flex-direction: column;
@@ -189,11 +205,12 @@ a {
   width: 100%;
   margin: 0;
   padding: 0;
-  font-size: x-large;
+  font-size: large;
 }
 
 .wrapper__main-content__next-weathers__next-hours--card strong {
   color: #656464;
+  font-size: x-large;
 }
 
 .wrapper__main-content__next-weathers__next-hours--card span {
@@ -240,6 +257,9 @@ a {
   .wrapper__main-content__next-weathers__next-hours--card div {
     font-size: larger;
   }
+  .wrapper__main-content__next-weathers__next-hours--card strong {
+    font-size: larger;
+  }
 
   .wrapper__main-content__next-weathers__next-hours--card-prediction {
     font-size: 14px;
@@ -270,6 +290,9 @@ a {
   }
 
   .wrapper__main-content__next-weathers__next-hours--card div {
+    font-size: 14px;
+  }
+  .wrapper__main-content__next-weathers__next-hours--card strong {
     font-size: 14px;
   }
 
