@@ -1,0 +1,156 @@
+/* Global Styles */
+* {
+  padding: 0;
+  margin: 0;
+  outline: 0;
+  box-sizing: border-box;
+}
+
+html {
+  height: 100vh;
+  width: 100vw;
+}
+
+body {
+  color: black;
+  -webkit-font-smoothing: antialiased !important;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  background-image: linear-gradient(
+    to top,
+    rgb(223, 159, 232),
+    rgb(94, 137, 223)
+  );
+}
+
+section {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+section:nth-child(1) {
+  height: 60%;
+}
+
+section:nth-child(2) {
+  height: 40%;
+}
+
+body,
+input,
+button {
+  font: 1rem 'Roboto', sans-serif;
+}
+
+button,
+label,
+a {
+  cursor: pointer;
+}
+
+/* Custom Styles */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  max-width: 768px;
+  align-self: center;
+  padding: 1.5rem;
+  position: center center;
+}
+
+.wrapper__main-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.wrapper__main-content__searching {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.wrapper__main-content__searching--input {
+  background: rgba(243, 231, 231, 0.2);
+  border: none;
+  height: 2rem;
+  border-radius: 5px;
+  padding: 10px;
+  color: black;
+  font-weight: 600;
+}
+
+.wrapper__main-content__searching--input::placeholder {
+  color: black;
+  font-weight: 600;
+}
+
+.wrapper__main-content__searching--button {
+  background: rgba(243, 231, 231, 0.2);
+  border: none;
+  height: 2rem;
+  font-size: 1.3rem;
+  border-radius: 5px;
+  padding: 0;
+  margin: 0;
+  line-height: 0;
+  padding: 10px;
+  color: black;
+  font-weight: 600;
+}
+
+.wrapper__main-content__current-weather {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(243, 231, 231, 0.2);
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 15px;
+}
+
+.wrapper__main-content__next-weathers {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border-radius: 5px;
+  padding: 10px;
+  align-items: center;
+}
+
+.wrapper__main-content__next-weathers__group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.wrapper__main-content__next-weathers__group span {
+  background: rgba(243, 231, 231, 0.2);
+  font-size: 14px;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 0 1%;
+  color: black;
+  font-weight: 600;
+  align-self: center;
+}
+
+.wrapper__main-content__next-weathers__group-line-spacing {
+  flex: 1;
+  height: 2.5px;
+  border-radius: 5px;
+  background: rgba(243, 231, 231, 0.2);
+}
