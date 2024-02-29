@@ -171,6 +171,48 @@ a {
   height: 100%;
   background: rgba(243, 231, 231, 0.2);
   border-radius: 5px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px 10px 0px 10px;
+  justify-content: space-between;
+}
+
+.wrapper__main-content__next-weathers__next-hours--card div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-size: x-large;
+}
+
+.wrapper__main-content__next-weathers__next-hours--card strong {
+  color: #656464;
+  font-size: x-large;
+}
+
+.wrapper__main-content__next-weathers__next-hours--card span {
+  font-weight: 500;
+}
+
+.wrapper__main-content__next-weathers__next-hours--card-max-celsius {
+  color: #e55151;
+}
+
+.wrapper__main-content__next-weathers__next-hours--card-min-celsius {
+  color: #4aace9;
+}
+
+.wrapper__main-content__next-weathers__next-hours--card-prediction {
+  color: #656464;
+  border: 2px solid white;
+  background-color: white;
+  padding: 0px 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 
 /* Media queries*/

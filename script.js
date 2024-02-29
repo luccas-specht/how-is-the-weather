@@ -2,7 +2,7 @@ const checkIsAValidCity = ({ city }) => {
   if (city.trim() === '') {
     // toast
     console.error('Por favor, digite o nome da city.');
-    return;
+    return true;
   }
 };
 
@@ -61,7 +61,10 @@ const mainFunctionToCheckTheWeather = async () => {
   const city = document.getElementById('cityToSearch').value;
   const appId = 'b23965f99d8afde99c2e60db0753b5e8';
 
-  checkIsAValidCity({ city });
+  if (!checkIsAValidCity({ city })) {
+    return void;
+  }
+
   const opa = await getUpcomingPredictions({ city, APIKey: appId });
 
   console.log({ opa });
