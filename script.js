@@ -62,7 +62,7 @@ const mainFunctionToCheckTheWeather = async () => {
   const appId = 'b23965f99d8afde99c2e60db0753b5e8';
 
   if (!checkIsAValidCity({ city })) {
-    return void;
+    return;
   }
 
   const opa = await getUpcomingPredictions({ city, APIKey: appId });
