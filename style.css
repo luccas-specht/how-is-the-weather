@@ -122,9 +122,21 @@ a {
 }
 
 .wrapper__main-content__current-weather__city {
-  border: 2px solid red;
   width: 100%;
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
+  h3 {
+    line-height: 1.5rem;
+  }
+
+  span {
+    color: #656464;
+    font-size: 14px;
+  }
 }
 .wrapper__main-content__current-weather__thermal-sensation {
   border: 2px solid red;
