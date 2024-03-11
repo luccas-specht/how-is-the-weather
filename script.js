@@ -1,76 +1,57 @@
-const checkIsAValidCity = ({ city }) => {
-  if (city.trim() === '') {
-    // toast
-    console.error('Por favor, digite o nome da city.');
-    return true;
+const fetchJSON = async (url) => {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error('Erro na requisição: ' + response.statusText);
+  }
+  return response.json();
+};
+
+const getLocationByCityInformed = async ({ city, APIKey }) => {
+  const baseUrl = 'http://api.openweathermap.org/geo/1.0/direct?';
+  const entireUrl = `${baseUrl}q=${city}&appid=${APIKey}`;
+
+  try {
+    return await fetchJSON(entireUrl);
+  } catch (error) {
+    console.error('Erro ao tentar fazer a requisição:', error);
+    return null;
+  }
+};
+
+const getPredictionsBasedOnLatAndLon = async ({ lat, lon, APIKey }) => {
+  const defaultLangAsBrazilianPortuguese = 'pt_br';
+  const defaultUnitsAsCelsius = 'metric';
+  const maxAmountOfForecasts = 4;
+  const baseUrl = 'https://api.openweathermap.org/data/2.5/forecast?';
+  const entireUrl = `${baseUrl}lat=${lat}&lon=${lon}&appid=${APIKey}&lang=${defaultLangAsBrazilianPortuguese}&units=${defaultUnitsAsCelsius}&cnt=${maxAmountOfForecasts}`;
+
+  try {
+    const data = await fetchJSON(entireUrl);
+    return data?.list;
+  } catch (error) {
+    console.error('Erro ao tentar fazer a requisição:', error);
+    return null;
   }
 };
 
 const getUpcomingPredictions = async ({ city, APIKey }) => {
-  /* To be able to get the upcoming predictions based in the city informed, it must be call by sending lat and long as params.
-     However there is not a way to get lat and long from city without do this request before: http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${APIKey}*/
+  const location = await getLocationByCityInformed({ city, APIKey });
 
-  const getLocationByCityInformed = async () => {
-    const baseUrl = 'http://api.openweathermap.org/geo/1.0/direct?';
-    const entireUrl = `${baseUrl}q=${city}&appid=${APIKey}`;
-
-    return await fetch(entireUrl)
-      .then((response) => {
-        if (!response.ok)
-          throw new Error('Erro na requisição: ' + response.statusText);
-
-        return response.json();
-      })
-      .catch((error) => {
-        // tratar erros
-        console.error('Erro ao tentar fazer a requisição:', error);
-      });
-  };
-
-  const getPredictionsBasedOnLatAndLon = async ({ lat, lon }) => {
-    const defaultLangAsBrazilianPortuguese = 'pt_br';
-    const defaultUnitsAsCelsius = 'metric';
-    const maxAmountOfForecasts = 4;
-    const baseUrl = 'https://api.openweathermap.org/data/2.5/forecast?';
-
-    const entireUrl = `${baseUrl}lat=${lat}&lon=${lon}&appid=${APIKey}&lang=${defaultLangAsBrazilianPortuguese}&units=${defaultUnitsAsCelsius}&cnt=${maxAmountOfForecasts}`;
-
-    return fetch(entireUrl)
-      .then((response) => {
-        if (!response.ok)
-          throw new Error('Erro na requisição: ' + response.statusText);
-
-        return response.json();
-      })
-      .then((data) => {
-        return data?.list;
-      })
-      .catch((error) => {
-        console.error('Erro ao tentar fazer a requisição:', error);
-      });
-  };
-
-  const [firstFound, ...rest] = await getLocationByCityInformed();
-  const { lat, lon } = firstFound;
-
-  return await getPredictionsBasedOnLatAndLon({ lat, lon });
-};
-
-const mainFunctionToCheckTheWeather = async () => {
-  // get the input value by id
-  const city = document.getElementById('cityToSearch').value;
-  const appId = 'b23965f99d8afde99c2e60db0753b5e8';
-
-  if (!checkIsAValidCity({ city })) {
-    return;
+  if (!location) {
+    return null;
   }
 
-  const opa = await getUpcomingPredictions({ city, APIKey: appId });
+  const { lat, lon } = location[0];
 
-  console.log({ opa });
+  return await getPredictionsBasedOnLatAndLon({ lat, lon, APIKey });
 };
 
-// Adicionando um evento de clique ao botão
-document
-  .getElementById('buttonId')
-  .addEventListener('click', mainFunctionToCheckTheWeather);
+const mainCall = async () => {
+  const city = document.getElementById('cityToSearch').value;
+  const APIKey = 'b23965f99d8afde99c2e60db0753b5e8';
+
+  const response = await getUpcomingPredictions({ city, APIKey });
+  console.log({ response });
+};
+
+document.getElementById('buttonId').addEventListener('click', mainCall);
