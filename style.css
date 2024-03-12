@@ -324,6 +324,7 @@ span {
   }
 
   .wrapper__main-content__next-weathers__next-hours--card-prediction {
+    font-size: 12px;
     border-radius: 5px;
   }
 }
@@ -341,6 +342,7 @@ span {
   }
 
   .wrapper__main-content__next-weathers__next-hours--card-prediction {
+    padding: 0;
     font-size: 12px;
   }
   .icon__size {
@@ -361,13 +363,13 @@ span {
   }
 }
 
-@media (max-width: 310px) {
+@media (max-width: 320px) {
   .wrapper__main-content__next-weathers__next-hours--card div {
     font-size: 12px;
   }
 
   .wrapper__main-content__next-weathers__next-hours--card-prediction {
-    font-size: 12px;
+    font-size: 11px;
   }
   .icon__size {
     font-size: 1.5rem;
