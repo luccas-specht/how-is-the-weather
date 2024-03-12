@@ -46,14 +46,43 @@ const getUpcomingPredictions = async ({ city, APIKey }) => {
   return await getPredictionsBasedOnLatAndLon({ lat, lon, APIKey });
 };
 
-const icons = {};
+const getCurrentWeather = async ({ city, APIKey }) => {
+  const defaultLangAsBrazilianPortuguese = 'pt_br';
+  const defaultUnitsAsCelsius = 'metric';
+  const baseUrl = 'https://api.openweathermap.org/data/2.5/weather?';
+
+  const location = await getLocationByCityInformed({ city, APIKey });
+
+  if (!location) {
+    return null;
+  }
+
+  const { lat, lon } = location[0];
+
+  try {
+    const entireUrl =
+      baseUrl +
+      `lat=${lat}&lon=${lon}&appid=${APIKey}&lang=${defaultLangAsBrazilianPortuguese}&units=${defaultUnitsAsCelsius}`;
+    return await fetchJSON(entireUrl);
+  } catch (error) {
+    console.error('Erro ao tentar fazer a requisição:', error);
+    return null;
+  }
+};
 
 // add HTML code
 const mainCall = async () => {
   var container = document.getElementById('weatherContainer');
 
+  var currentWeatherContainer = document.getElementById(
+    'currentWeatherContainer'
+  );
+
   while (container.firstChild) {
     container.removeChild(container.firstChild);
+  }
+  while (currentWeatherContainer.firstChild) {
+    currentWeatherContainer.removeChild(currentWeatherContainer.firstChild);
   }
 
   const city = document.getElementById('cityToSearch').value;
@@ -68,7 +97,24 @@ const mainCall = async () => {
     temp_min: element.main.temp_min,
   }));
 
+  const currentWeather = await getCurrentWeather({ APIKey, city });
+
   var weatherContainer = document.getElementById('weatherContainer');
+  var currentWeatherContainer = document.getElementById(
+    'currentWeatherContainer'
+  );
+
+  var sectionCard = document.createElement('section');
+  sectionCard.classList.add('wrapper__main-content__current-weather__city');
+
+  var cityName = document.createElement('h3');
+  cityName.textContent = `${currentWeather.name}, ${currentWeather.sys.country} `;
+  var dateNow = document.createElement('span');
+
+  sectionCard.appendChild(cityName);
+  sectionCard.appendChild(dateNow);
+
+  currentWeatherContainer.appendChild(sectionCard);
 
   predictions.forEach((item) => {
     var time = new Date(item.time);
@@ -122,7 +168,7 @@ const mainCall = async () => {
     weatherContainer.appendChild(weatherCard);
   });
 
-  console.log({ response, predictions });
+  console.log({ response, predictions, currentWeather });
 };
 
 document.getElementById('buttonId').addEventListener('click', mainCall);
