@@ -45,7 +45,7 @@ function calcularVelocidadeVento(infoVento) {
   // Calcular a velocidade do vento em km/h usando a fórmula dos componentes do vetor de vento
   var velocidadeKmh = velocidadeMps * (3600 / 1000); // converter de m/s para km/h
 
-  return velocidadeKmh.toFixed(2) + 'km/h';
+  return velocidadeKmh.toFixed(0) + 'km/h';
 }
 
 function formatarTimestampToHour(timestamp) {
@@ -238,6 +238,30 @@ const mainCall = async () => {
   var divWindValue = document.createElement('span');
   divWindValue.textContent = calcularVelocidadeVento(currentWeather.wind);
 
+  var divHumidity = document.createElement('div');
+  divHumidity.classList.add(
+    'wrapper__main-content__current-weather__other-infos--group-items'
+  );
+
+  var divHumidityTitle = document.createElement('span');
+  divHumidityTitle.classList.add('span-bold');
+  divHumidityTitle.textContent = 'Umidade';
+
+  var divHumidityValue = document.createElement('span');
+  divHumidityValue.textContent = currentWeather.main.humidity + '%';
+
+  var divPressure = document.createElement('div');
+  divPressure.classList.add(
+    'wrapper__main-content__current-weather__other-infos--group-items'
+  );
+
+  var divPressureTitle = document.createElement('span');
+  divPressureTitle.classList.add('span-bold');
+  divPressureTitle.textContent = 'Umidade';
+
+  var divPressureValue = document.createElement('span');
+  divPressureValue.textContent = currentWeather.main.pressure + 'mb';
+
   divSunset.appendChild(divSunsetTitle);
   divSunset.appendChild(divSunsetValue);
 
@@ -247,9 +271,17 @@ const mainCall = async () => {
   divWind.appendChild(divWindTitle);
   divWind.appendChild(divWindValue);
 
+  divHumidity.appendChild(divHumidityTitle);
+  divHumidity.appendChild(divHumidityValue);
+
+  divPressure.appendChild(divPressureTitle);
+  divPressure.appendChild(divPressureValue);
+
   divWrapper.appendChild(divSunrise);
   divWrapper.appendChild(divSunset);
   divWrapper.appendChild(divWind);
+  divWrapper.appendChild(divHumidity);
+  divWrapper.appendChild(divPressure);
 
   divGroup.appendChild(divWrapper);
   sectionInfos.appendChild(divGroup);
