@@ -1,3 +1,69 @@
+function formatarTimestampToDateNow(timestamp) {
+  var date = new Date(timestamp * 1000);
+
+  var diasSemana = [
+    'domingo',
+    'segunda-feira',
+    'terça-feira',
+    'quarta-feira',
+    'quinta-feira',
+    'sexta-feira',
+    'sábado',
+  ];
+  var diaSemana = diasSemana[date.getDay()];
+
+  var meses = [
+    'janeiro',
+    'fevereiro',
+    'março',
+    'abril',
+    'maio',
+    'junho',
+    'julho',
+    'agosto',
+    'setembro',
+    'outubro',
+    'novembro',
+    'dezembro',
+  ];
+  var mes = meses[date.getMonth()];
+
+  var dia = date.getDate();
+
+  var dataFormatada = diaSemana + '. ' + dia + ' de ' + mes;
+
+  return dataFormatada;
+}
+
+function calcularVelocidadeVento(infoVento) {
+  var velocidadeMps = infoVento.speed; // velocidade em metros por segundo
+  var direcaoGraus = infoVento.deg; // direção em graus
+
+  // Converter a direção de graus para radianos
+  var direcaoRadianos = direcaoGraus * (Math.PI / 180);
+
+  // Calcular a velocidade do vento em km/h usando a fórmula dos componentes do vetor de vento
+  var velocidadeKmh = velocidadeMps * (3600 / 1000); // converter de m/s para km/h
+
+  return velocidadeKmh.toFixed(2) + 'km/h';
+}
+
+function formatarTimestampToHour(timestamp) {
+  var date = new Date(timestamp * 1000);
+
+  var hora = ('0' + date.getHours()).slice(-2);
+  var minuto = ('0' + date.getMinutes()).slice(-2);
+
+  var dataFormatada = hora + ':' + minuto;
+
+  return dataFormatada;
+}
+
+// Exemplo de uso:
+var timestamp = 1710248508;
+var dataFormatada = formatarTimestampToDateNow(timestamp);
+console.log(dataFormatada); // Saída: "ter. 12 mar. 10:09"
+
 const fetchJSON = async (url) => {
   const response = await fetch(url);
   if (!response.ok) {
@@ -111,10 +177,85 @@ const mainCall = async () => {
   cityName.textContent = `${currentWeather.name}, ${currentWeather.sys.country} `;
   var dateNow = document.createElement('span');
 
+  var timestampToDate = formatarTimestampToDateNow(currentWeather.dt);
+  dateNow.textContent = timestampToDate;
+
   sectionCard.appendChild(cityName);
   sectionCard.appendChild(dateNow);
 
+  var sectionInfos = document.createElement('section');
+  sectionInfos.classList.add(
+    'wrapper__main-content__current-weather__other-infos'
+  );
+
+  var divGroup = document.createElement('div');
+  divGroup.classList.add(
+    'wrapper__main-content__current-weather__other-infos--group'
+  );
+
+  var divWrapper = document.createElement('div');
+  divWrapper.classList.add(
+    'wrapper__main-content__current-weather__other-infos--group-wrapper'
+  );
+
+  var divSunrise = document.createElement('div');
+  divSunrise.classList.add(
+    'wrapper__main-content__current-weather__other-infos--group-items'
+  );
+
+  var divSunriseTitle = document.createElement('span');
+  divSunriseTitle.classList.add('span-bold');
+  divSunriseTitle.textContent = 'Nascer do sol';
+
+  var divSunriseValue = document.createElement('span');
+  divSunriseValue.textContent = formatarTimestampToHour(
+    currentWeather.sys.sunrise
+  );
+
+  var divSunset = document.createElement('div');
+  divSunset.classList.add(
+    'wrapper__main-content__current-weather__other-infos--group-items'
+  );
+
+  var divSunsetTitle = document.createElement('span');
+  divSunsetTitle.classList.add('span-bold');
+  divSunsetTitle.textContent = 'Por do sol';
+
+  var divSunsetValue = document.createElement('span');
+  divSunsetValue.textContent = formatarTimestampToHour(
+    currentWeather.sys.sunset
+  );
+
+  var divWind = document.createElement('div');
+  divWind.classList.add(
+    'wrapper__main-content__current-weather__other-infos--group-items'
+  );
+
+  var divWindTitle = document.createElement('span');
+  divWindTitle.classList.add('span-bold');
+  divWindTitle.textContent = 'Vento';
+
+  var divWindValue = document.createElement('span');
+  divWindValue.textContent = calcularVelocidadeVento(currentWeather.wind);
+
+  divSunset.appendChild(divSunsetTitle);
+  divSunset.appendChild(divSunsetValue);
+
+  divSunrise.appendChild(divSunriseTitle);
+  divSunrise.appendChild(divSunriseValue);
+
+  divWind.appendChild(divWindTitle);
+  divWind.appendChild(divWindValue);
+
+  divWrapper.appendChild(divSunrise);
+  divWrapper.appendChild(divSunset);
+  divWrapper.appendChild(divWind);
+
+  divGroup.appendChild(divWrapper);
+  sectionInfos.appendChild(divGroup);
+
   currentWeatherContainer.appendChild(sectionCard);
+  currentWeatherContainer.appendChild(sectionInfos);
 
   predictions.forEach((item) => {
     var time = new Date(item.time);
